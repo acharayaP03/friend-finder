@@ -18,27 +18,36 @@ def read_names_from_file(filename):
     with open(filename, 'r') as filename:
         return [line.strip() for line in filename]
 
-# with open('nearby_friends.txt', 'r') as file:
-#     contents = file.readlines()
-#     formatted_contents = [name.strip() for name in contents]
-#
-# print(formatted_contents)
-
-
+def find_all_matching_friends(friends, friends_name):
+    matches = []
+    for friend in friends_name:
+        for search in friends:
+            if search.lower() in friend.lower():
+                matches.append(friend)
+                break
+    return matches
 
 def main():
+    print('Welcome to Nearby Friends finder...')
     file_name = 'nearby_friends.txt'
-    friends = read_names_from_file(file_name)
+    friends_name = read_names_from_file(file_name)
 
-    print(f"Friends list from file: {friends}")
+    print(f"Friends list from file: {friends_name}")
 
     while True:
-        print('Welcome to Nearby Friends finder...')
         friends = get_user_input()
-        print(friends)
+        matches = find_all_matching_friends(friends, friends_name)
+
+        # if matches is not empty
+        if matches:
+            print("Near by friends are found... checkout the list")
+            for index, friend in enumerate(matches):
+                print(f"{index + 1}). {friend}")
+        else:
+            print("No nearby friends found matching the entered names.")
+
 
         user_choice = input("Do you want to keep continue search?. (yes/no)").lower()
-
         if not user_choice.startswith('y'):
             break
 
