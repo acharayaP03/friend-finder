@@ -28,18 +28,26 @@ def find_all_matching_friends(friends, friends_name):
     return matches
 
 def main():
+    print('Welcome to Nearby Friends finder...')
     file_name = 'nearby_friends.txt'
-    friends = read_names_from_file(file_name)
+    friends_name = read_names_from_file(file_name)
 
-    print(f"Friends list from file: {friends}")
+    print(f"Friends list from file: {friends_name}")
 
     while True:
-        print('Welcome to Nearby Friends finder...')
         friends = get_user_input()
-        print(friends)
+        matches = find_all_matching_friends(friends, friends_name)
+
+        # if matches is not empty
+        if matches:
+            print("Near by friends are found... checkout the list")
+            for index, friend in enumerate(matches):
+                print(f"{index + 1}). {friend}")
+        else:
+            print("No nearby friends found matching the entered names.")
+
 
         user_choice = input("Do you want to keep continue search?. (yes/no)").lower()
-
         if not user_choice.startswith('y'):
             break
 
