@@ -3,6 +3,8 @@
 # Fo each friend, we'll tell the user whether they are nearby.
 #  for each nearby friend, we'll save their name to 'nearby_friend.txt'
 
+# now turn it into OOP based apop.
+
 import re
 
 print('-----------------Nearby Friends---------------')
@@ -19,17 +21,24 @@ def read_names_from_file(filename):
         return [line.strip() for line in filename]
 
 def find_all_matching_friends(friends, friends_name):
-    matches = []
-    for friend in friends_name:
-        for search in friends:
-            if search.lower() in friend.lower():
-                matches.append(friend)
-                break
-    return matches
+    # matches = []
+    # for friend in friends_name:
+    #     for search in friends:
+    #         if search.lower() in friend.lower():
+    #             matches.append(friend)
+    #             break
+    # return matches
+    return [name for name in friends_name if any(friend.lower() in name.lower() for friend in friends)]
+
+def save_to_files(file_name, friends):
+    with open(file_name, 'w') as friends_file:
+        for index, friend in enumerate(friends):
+            friends_file.write(f"{index + 1}). {friend}\n")
+
 
 def main():
     print('Welcome to Nearby Friends finder...')
-    file_name = 'nearby_friends.txt'
+    file_name = 'all_friends.txt'
     friends_name = read_names_from_file(file_name)
 
     print(f"Friends list from file: {friends_name}")
@@ -43,6 +52,12 @@ def main():
             print("Near by friends are found... checkout the list")
             for index, friend in enumerate(matches):
                 print(f"{index + 1}). {friend}")
+
+            save_friends = input("Do you want to save these results? (yes/no): ").lower()
+            if save_friends.startswith('y'):
+                save_file_name = input("Enter filename to save results: ")
+                save_to_files(save_file_name, friends)
+                print(f"Results saved to {save_file_name}")
         else:
             print("No nearby friends found matching the entered names.")
 
